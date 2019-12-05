@@ -1,7 +1,29 @@
-<User>
-    <Name>Petr</Name>
-    <Age>15</Age>
-    <Document>
-        <ID>12345</ID>
-    </Document>
-</User>
+<UsersList>
+    <User>
+        <Name>Petr</Name>
+        <Age>15</Age>
+        <Document>
+            <ID>12345</ID>
+        </Document>
+        <Accounts>
+                <VK>
+                    <id>1234567</id>
+                </VK>
+                <OK>
+                    <login>petr12345</login>
+                </OK>
+        </Accounts>
+    </User>
+    <User>
+        <Name>Pavel</Name>
+        <Age>19</Age>
+        <Document>
+            <ID>11111</ID>
+        </Document>
+        <Accounts>
+            <VK>
+                <id>1111</id>
+            </VK>
+        </Accounts>
+    </User>
+</UsersList>
