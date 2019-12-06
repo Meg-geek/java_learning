@@ -20,14 +20,14 @@ public class QuestionCategoriesRepository {
             "values (:" + INSERT_PARAMETER_NAME + ")";
 
     private ResultSetExtractor<List<Category>> extractor = new CategoryExtractor();
-    public static final int CATEGORY_NOT_FOUND = -1;
+    static final int CATEGORY_NOT_FOUND = -1;
 
     @Autowired
     public QuestionCategoriesRepository(NamedParameterJdbcTemplate jdbcTemplate){
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    public void addCategory(String questionCategoryName){
+    void addCategory(String questionCategoryName){
         if(!isCategoryExists(questionCategoryName)){
             MapSqlParameterSource parameterMap = new MapSqlParameterSource()
                     .addValue(INSERT_PARAMETER_NAME, questionCategoryName);
@@ -35,7 +35,7 @@ public class QuestionCategoriesRepository {
         }
     }
 
-    public boolean isCategoryExists(String categoryName){
+    boolean isCategoryExists(String categoryName){
         String sqlSelect = "select * from category where name ILIKE :category";
         MapSqlParameterSource parameterMap = new MapSqlParameterSource()
                 .addValue("category", categoryName);
@@ -47,7 +47,7 @@ public class QuestionCategoriesRepository {
         return (selectedList.size() > 0);
     }
 
-    public int getCategoryID(String categoryName){
+    int getCategoryID(String categoryName){
         if(!isCategoryExists(categoryName)){
             return CATEGORY_NOT_FOUND;
         }

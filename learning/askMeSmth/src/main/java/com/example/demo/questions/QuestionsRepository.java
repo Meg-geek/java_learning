@@ -22,14 +22,14 @@ public class QuestionsRepository {
     private final String SELECT_QUESTION_BY_TEXT ="select * from " +
             TABLE_NAME + "where text ILIKE :" + TEXT_PARAMETER_NAME;
     private ResultSetExtractor<List<Question>> questionExtractor = new QuestionExtractor();
-
+    final static int WRONG_INSERT = -3;
 
     @Autowired
     public QuestionsRepository(NamedParameterJdbcTemplate jdbcTemplate){
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    public void addQuestion(String questionText){
+    void addQuestion(String questionText){
         if(!isQuestionExists(questionText)){
             MapSqlParameterSource parameterMap = new MapSqlParameterSource()
                     .addValue(TEXT_PARAMETER_NAME, questionText);
@@ -37,7 +37,7 @@ public class QuestionsRepository {
         }
     }
 
-    public boolean isQuestionExists(String questionText){
+    boolean isQuestionExists(String questionText){
         MapSqlParameterSource parameterMap = new MapSqlParameterSource()
                 .addValue(TEXT_PARAMETER_NAME, questionText);
         List<Question> selectedQuestionList = jdbcTemplate.query(SELECT_QUESTION_BY_TEXT,
@@ -46,6 +46,21 @@ public class QuestionsRepository {
             return false;
         }
         return (selectedQuestionList.size() > 0);
+    }
+
+    int insertReturningID(String questionText){
+        if(!isQuestionExists(questionText)){
+            MapSqlParameterSource parameterMap = new MapSqlParameterSource()
+                    .addValue(TEXT_PARAMETER_NAME, questionText);
+            Integer id = jdbcTemplate.query(SQL_INSERT + "returning id",
+                    parameterMap, rs -> {
+                        return rs.getInt("id");
+                    });
+            if(id != null){
+                return id;
+            }
+        }
+        return WRONG_INSERT;
     }
 }
 
