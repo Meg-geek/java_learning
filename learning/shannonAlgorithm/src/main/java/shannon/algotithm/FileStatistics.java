@@ -1,4 +1,4 @@
-package shannon.tree;
+package shannon.algotithm;
 
 import java.io.DataInputStream;
 import java.io.File;
@@ -31,7 +31,8 @@ public class FileStatistics {
         return fileStatistics;
     }
 
-    public Map<Byte, Float> getProbabilityMap(Map<Byte, Integer> statisticsMap) {
+    public Map<Byte, Float> getProbabilityMap(File file) throws IOException {
+        Map<Byte, Integer> statisticsMap = getFileStatisticsMap(file);
         Map<Byte, Float> probability = new HashMap<>();
         int symbolsAmount = NO_SYMBOLS;
         for (Integer amount : statisticsMap.values()) {
